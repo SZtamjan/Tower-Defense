@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d9e8e7a7d0c2944db1a9614210a5d02, type: 3}
+  m_Name: WaypointsSO
+  m_EditorClassIdentifier: 
+  waypointsList:
+  - {fileID: 2533102289973037471, guid: 496020c40fc740248bc6007333911bcc, type: 3}
+  - {fileID: 2060355869224493450, guid: d2f3c62dedaeda54db1635b50ac77237, type: 3}
