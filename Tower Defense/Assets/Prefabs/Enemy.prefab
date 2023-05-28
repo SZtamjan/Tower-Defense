@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 772315539775363340}
   - component: {fileID: 4816900368955362945}
   - component: {fileID: 772315539775363328}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,9 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySO: {fileID: 11400000, guid: 80cf4274d7dcefc418faba5bd93a7b85, type: 2}
   waypointSO: {fileID: 11400000, guid: f859798a47da1a8478a2a9a0b54e84d2, type: 2}
-  startPos: {fileID: 0}
-  endPos: {fileID: 0}
-  moveSpeed: 5
+  moveSpeed: 3
 --- !u!114 &4816900368955362945
 MonoBehaviour:
   m_ObjectHideFlags: 0
