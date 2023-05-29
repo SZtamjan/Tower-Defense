@@ -9,16 +9,20 @@ public class EnemyMover : MonoBehaviour
     public EnemyDifficultySO enemySO;
     public WaypointsSO waypointSO;
 
-    public float moveSpeed;
+    private int moveSpeed = 1;
     private int hp;
     
     private void Start()
     {
         hp = enemySO.hp;
-        moveSpeed = enemySO.moveSpeed;
         StartCoroutine(MoveToTarget());
     }
 
+    public void UpdateEnemySpeed(int speed)
+    {
+        moveSpeed = speed;
+    }
+    
     private IEnumerator MoveToTarget()
     {
         foreach (Transform currWaypoint in waypointSO.waypointsList)

@@ -1,20 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    public int stage = 0;
-    void Start()
+    public static GameManager instance;
+    
+    public int stageGM = 0;
+
+    private void Awake()
     {
-        StartCoroutine(MonsterSpawner.instance.SpawnEnemiesCor());
+        instance = this;
     }
 
     public int NextStage()
     {
-        stage++;
-        return stage;
+        stageGM++;
+        return stageGM;
     }
     
 }

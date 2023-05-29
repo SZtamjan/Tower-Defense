@@ -66,9 +66,9 @@ public class TowerScript : MonoBehaviour
 
         Vector3 dir = target.position - transform.position;
         Quaternion whereLook = Quaternion.LookRotation(dir);
+        //Vector3 actualRotation = Quaternion.Lerp(part.rotation,whereLook, Time.deltaTime*10f).eulerAngles;
         Vector3 actualRotation = whereLook.eulerAngles;
-        part.rotation = Quaternion.Euler(0f,actualRotation.y-90f,0f); 
-        
+        part.rotation = Quaternion.Euler(0f,actualRotation.y-90f,0f);
     }
     private IEnumerator ShootAt()
     {
@@ -79,8 +79,10 @@ public class TowerScript : MonoBehaviour
                 GameObject bulletGO = Instantiate(projectilesSO.grayProj[0], whereSpawnProj.position, Quaternion.identity);
                 ProjectileMover mover = bulletGO.GetComponent<ProjectileMover>();
                 
-                target = GetComponent<TowerScript>().target;
-                mover.GoTo(target);
+                if(target!=null)
+                {
+                    mover.GoTo(target);
+                }
             }
             yield return new WaitForSeconds(shootingSpeed);
         }

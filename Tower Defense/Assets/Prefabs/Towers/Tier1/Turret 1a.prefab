@@ -299,13 +299,13 @@ MonoBehaviour:
   turretTypeSO: {fileID: 11400000, guid: 94dd82b924b3080428b43f8846b568a8, type: 2}
   projectilesSO: {fileID: 11400000, guid: a7dfc1ab0bf238e4488672c55e0a5305, type: 2}
   range: 5
-  target: {fileID: 0}
   whereSpawnProj: {fileID: 8584068368362134687}
   part: {fileID: 4000010304338452}
+  toShoot: 0
+  target: {fileID: 0}
   lejerMask:
     serializedVersion: 2
     m_Bits: 64
-  toShoot: 0
 --- !u!1 &1000012338640140
 GameObject:
   m_ObjectHideFlags: 0

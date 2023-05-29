@@ -25,17 +25,17 @@ public class ProjectileMover : MonoBehaviour
     
     private void Update()
     {
-        if (targetPos == null)
-        {
-            Destroy(gameObject);
-        }
-        else
+        if (targetPos != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPos.position, 7f*Time.deltaTime);
             if (Vector3.Distance(transform.position,targetPos.position) <= 0.1f)
             {
                 Destroy(gameObject);
             }
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 }

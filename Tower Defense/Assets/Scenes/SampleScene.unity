@@ -951,6 +951,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 772315539775363329, guid: fb98446c0dc1f984f952d388d1feb88b, type: 3}
+  gigaEnemyPrefab: {fileID: 772315539775363329, guid: 309018bf9b6afb540861f470ca54cc11, type: 3}
+  addEnemy: 3
+  enemySpeed: 2
+  stage: 0
+  spawnOften: 1
+  delayBetweenWaves: 5
+  chances: 10
 --- !u!1001 &367818145
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2612,6 +2619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32217059befe134389eb621d4e205b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageGM: 0
 --- !u!114 &1139779219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3972,7 +3980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1000012174300454, guid: 3ab136c9ee045f54bb2133f0efc72c3e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4000010737274380, guid: 3ab136c9ee045f54bb2133f0efc72c3e, type: 3}
       propertyPath: m_RootOrder
@@ -3980,7 +3988,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010737274380, guid: 3ab136c9ee045f54bb2133f0efc72c3e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9
+      value: 6.75
       objectReference: {fileID: 0}
     - target: {fileID: 4000010737274380, guid: 3ab136c9ee045f54bb2133f0efc72c3e, type: 3}
       propertyPath: m_LocalPosition.y
