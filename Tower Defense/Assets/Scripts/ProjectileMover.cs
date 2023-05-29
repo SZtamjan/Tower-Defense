@@ -6,24 +6,36 @@ using UnityEngine;
 
 public class ProjectileMover : MonoBehaviour
 {
-    private Vector3 targetPos;
+    private Transform targetPos;
+    public ProjectilesInfoSO projSO;
+    public int dmg;
+
+    private void Start()
+    {
+        dmg = projSO.dmg;
+    }
 
     public void GoTo(Transform target)
     {
         if(target.position != null)
         {
-            targetPos = target.position;
+            targetPos = target;
         }
     }
     
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, 20f*Time.deltaTime);
-        if (Vector3.Distance(transform.position,targetPos) <= 0.1f)
+        if (targetPos == null)
         {
             Destroy(gameObject);
         }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetPos.position, 7f*Time.deltaTime);
+            if (Vector3.Distance(transform.position,targetPos.position) <= 0.1f)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
-
-
 }

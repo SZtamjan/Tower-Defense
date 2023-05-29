@@ -7,14 +7,26 @@ using UnityEngine.Serialization;
 
 public class TowerScript : MonoBehaviour
 {
+    [Header("SO")]
+    public TurretType turretTypeSO;
+    public ProjectilesSO projectilesSO;
+    
+    [Header("Tower")]
     public float range = 5f;
-    public Transform target;
-
+    public Transform whereSpawnProj;
     public Transform part;
+    public bool toShoot = false;
+    
+    [Header("Target/Enemy")]
+    public Transform target;
     public LayerMask lejerMask;
+    
+    private float shootingSpeed;
 
     private void Start()
     {
+        shootingSpeed = turretTypeSO.shootingSpeed;
+        StartCoroutine(ShootAt());
         InvokeRepeating("UpdateTarget",0f,0.5f);
     }
 
@@ -37,12 +49,12 @@ public class TowerScript : MonoBehaviour
         }
         if(enemy != null && shortestDistance < range)
         {
-            GetComponent<TowerShooting>().toShoot = true;
+            toShoot = true;
             target = enemy.transform;
         }
         else
         {
-            GetComponent<TowerShooting>().toShoot = false;
+            toShoot = false;
             target = null;
         }
     }
@@ -51,15 +63,28 @@ public class TowerScript : MonoBehaviour
     {
         if(target==null)
             return;
-        
-        
+
         Vector3 dir = target.position - transform.position;
         Quaternion whereLook = Quaternion.LookRotation(dir);
         Vector3 actualRotation = whereLook.eulerAngles;
         part.rotation = Quaternion.Euler(0f,actualRotation.y-90f,0f); 
         
     }
-
+    private IEnumerator ShootAt()
+    {
+        while (true)
+        {
+            if (toShoot)
+            {
+                GameObject bulletGO = Instantiate(projectilesSO.grayProj[0], whereSpawnProj.position, Quaternion.identity);
+                ProjectileMover mover = bulletGO.GetComponent<ProjectileMover>();
+                
+                target = GetComponent<TowerScript>().target;
+                mover.GoTo(target);
+            }
+            yield return new WaitForSeconds(shootingSpeed);
+        }
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

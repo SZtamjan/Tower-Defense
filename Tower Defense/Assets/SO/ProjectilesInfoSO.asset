@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcf2e2ec66d2be34eb1285299f1ac260, type: 3}
-  m_Name: Enemy1
+  m_Script: {fileID: 11500000, guid: 99df1415acaf7db44ba0afc1b7dc63bb, type: 3}
+  m_Name: ProjectilesInfoSO
   m_EditorClassIdentifier: 
-  type: 1
   dmg: 5

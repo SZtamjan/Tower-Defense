@@ -261,7 +261,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000010737274380}
   - component: {fileID: 6990053609145127859}
-  - component: {fileID: 7169234359038436213}
   m_Layer: 0
   m_Name: Turret 1a
   m_TagString: Untagged
@@ -297,27 +296,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a73104e60d072e49be2927ddb1101a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turretTypeSO: {fileID: 11400000, guid: 94dd82b924b3080428b43f8846b568a8, type: 2}
+  projectilesSO: {fileID: 11400000, guid: a7dfc1ab0bf238e4488672c55e0a5305, type: 2}
   range: 5
   target: {fileID: 0}
+  whereSpawnProj: {fileID: 8584068368362134687}
   part: {fileID: 4000010304338452}
   lejerMask:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &7169234359038436213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012174300454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f886e7f54754e7479ea76fe107ba44b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turretTypeSO: {fileID: 11400000, guid: 94dd82b924b3080428b43f8846b568a8, type: 2}
-  projectilesSO: {fileID: 11400000, guid: a7dfc1ab0bf238e4488672c55e0a5305, type: 2}
-  whereSpawnProj: {fileID: 8584068368362134687}
   toShoot: 0
 --- !u!1 &1000012338640140
 GameObject:

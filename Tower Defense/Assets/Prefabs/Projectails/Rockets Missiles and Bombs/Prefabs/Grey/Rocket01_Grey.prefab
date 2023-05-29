@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33393642251697954}
   - component: {fileID: 23733933596998298}
   - component: {fileID: 1451226633745888956}
+  - component: {fileID: 3487403859338021517}
   m_Layer: 0
   m_Name: Rocket01_Grey
   m_TagString: Untagged
@@ -96,3 +97,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f91f97d246c7943800b2ffe9474546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projSO: {fileID: 11400000, guid: 522cd9ecfb026fd459ad064368c72daa, type: 2}
+  dmg: 0
+--- !u!65 &3487403859338021517
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207504508055520}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.3561592, y: 9.814482, z: 3.3561597}
+  m_Center: {x: 0.009535313, y: 1.0065076, z: 0.0025550127}

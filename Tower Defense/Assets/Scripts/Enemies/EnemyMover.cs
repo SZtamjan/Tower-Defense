@@ -9,10 +9,13 @@ public class EnemyMover : MonoBehaviour
     public EnemyDifficultySO enemySO;
     public WaypointsSO waypointSO;
 
-    public float moveSpeed = 3f;
-
+    public float moveSpeed;
+    private int hp;
+    
     private void Start()
     {
+        hp = enemySO.hp;
+        moveSpeed = enemySO.moveSpeed;
         StartCoroutine(MoveToTarget());
     }
 
@@ -29,5 +32,18 @@ public class EnemyMover : MonoBehaviour
         }
         GetComponent<MonsterDestroyer>().DestroyEnemy();
         yield return null;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        ProjectileMover object1Script = other.gameObject.GetComponent<ProjectileMover>();
+        if (object1Script != null)
+        {
+            hp -= object1Script.dmg;
+            if (hp <= 0f)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }
