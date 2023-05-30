@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(WaitForStage());
                 break;
             case GameState.StagePlay:
-                monsterSpawner.UpdateStageNumber();
+                monsterSpawner.UpdateStage();
                 //Start stejdżu
                 break;
             case GameState.Victory:
