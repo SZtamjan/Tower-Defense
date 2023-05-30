@@ -952,7 +952,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 772315539775363329, guid: fb98446c0dc1f984f952d388d1feb88b, type: 3}
   gigaEnemyPrefab: {fileID: 772315539775363329, guid: 309018bf9b6afb540861f470ca54cc11, type: 3}
-  addEnemy: 3
+  totalEnemies: 3
   enemySpeed: 2
   stage: 0
   spawnOften: 1
@@ -2619,6 +2619,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32217059befe134389eb621d4e205b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
+  monsterSpawner: {fileID: 362822896}
   stageGM: 0
 --- !u!114 &1139779219
 MonoBehaviour:

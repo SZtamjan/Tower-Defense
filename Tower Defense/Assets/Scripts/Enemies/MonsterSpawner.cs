@@ -7,62 +7,52 @@ using Random = System.Random;
 
 public class MonsterSpawner : MonoBehaviour
 {
-
+    //Enemies Prefab
     public GameObject enemyPrefab;
     public GameObject gigaEnemyPrefab;
-    public int addEnemy = 3;
-    public int enemySpeed = 2;
-    public int stage = 0;
-    public int spawnOften = 1;
-    public int delayBetweenWaves = 5;
+    
+    //Stage data
+    private int stage;
+    private int addEnemy;//SO
+    private int totalEnemies;//będę sobie liczył
+    private int spawnOften;
 
-    public int chances = 50;
-    private Random random = new Random();
+    //Enemy data
+    private int enemySpeed;//SO
+    private int enemyHP;//SO
+    
+    
     
     public void Start()
     {
-        GetStage();
         StartCoroutine(SpawnEnemiesCor());
     }
 
-    
-    
     public IEnumerator SpawnEnemiesCor()
     {
-        GameObject currecntEnemyPrefab;
         while (true)
         {
-            if (stage % 3 == 0)
-            {
-                enemySpeed++;
-            }
-            float totalEnemies = addEnemy * stage;
-            Debug.Log(addEnemy + " " + stage + " " + totalEnemies);
             for(int i = 0; i < totalEnemies; i++)
             {
-                int randomNR = random.Next(0,100);
-                if (randomNR < chances)
-                {
-                    currecntEnemyPrefab = gigaEnemyPrefab;
-                }
-                else
-                {
-                    currecntEnemyPrefab = enemyPrefab;
-                }
-                
-                GameObject enemyMover = Instantiate(currecntEnemyPrefab, transform.position, Quaternion.identity);
+                GameObject enemyMover = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
                 enemyMover.GetComponent<EnemyMover>().UpdateEnemySpeed(enemySpeed);
                 
                 yield return new WaitForSeconds(spawnOften);
             }
-            GetStage();
-            yield return new WaitForSeconds(delayBetweenWaves);
+
         }
     }
 
-    public void GetStage()
+    public void InitiateData(StageListSO stageList,int stage,int spawnHowOften)
     {
-        stage = GameManager.instance.NextStage();
+        
+    }
+
+    public void UpdateStageNumber()
+    {
+        stage++;
     }
     
+
+
 }
