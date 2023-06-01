@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySpeed: 5
   enemyHP: 15
-  enemyMesh: {fileID: 0}
+  spawnFrequency: 0.5
+  enemyPrefab: {fileID: 772315539775363329, guid: 6e9f764f91b58004fadc04acca20db4d, type: 3}

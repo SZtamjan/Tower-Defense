@@ -6,21 +6,17 @@ using UnityEngine;
 
 public class EnemyMover : MonoBehaviour
 {
-    public EnemyDifficultySO enemySO;
-    public WaypointsSO waypointSO;
+    private WaypointsSO waypointSO;
 
     private int moveSpeed = 1;
-    private int hp;
-    
-    private void Start()
-    {
-        hp = enemySO.hp;
-        StartCoroutine(MoveToTarget());
-    }
+    private int hp = 5; //Jeszcze nie zrobione przypisywanie hp z listy (hp jest w liście StageList i jest zależne od Stage), to trzeba zrobić dopiero po mechanice stage'y
 
-    public void UpdateEnemySpeed(int speed)
+    public void UpdateEnemyDataAndStart(int enemyHP,int speed,WaypointsSO wP)
     {
+        hp = enemyHP;
+        waypointSO = wP;
         moveSpeed = speed;
+        StartCoroutine(MoveToTarget());
     }
     
     private IEnumerator MoveToTarget()

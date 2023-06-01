@@ -950,14 +950,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b51309b4a5fef6489431b2dbb828bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 772315539775363329, guid: fb98446c0dc1f984f952d388d1feb88b, type: 3}
-  gigaEnemyPrefab: {fileID: 772315539775363329, guid: 309018bf9b6afb540861f470ca54cc11, type: 3}
-  totalEnemies: 3
-  enemySpeed: 2
-  stage: 0
-  spawnOften: 1
-  delayBetweenWaves: 5
-  chances: 10
 --- !u!1001 &367818145
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2620,8 +2612,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  waypointSO: {fileID: 11400000, guid: f859798a47da1a8478a2a9a0b54e84d2, type: 2}
   monsterSpawner: {fileID: 362822896}
-  stageGM: 0
+  stageList: {fileID: 11400000, guid: e8f816d6dfafc574192f9d6e306789fe, type: 2}
+  delayBetweenStages: 2
 --- !u!114 &1139779219
 MonoBehaviour:
   m_ObjectHideFlags: 0

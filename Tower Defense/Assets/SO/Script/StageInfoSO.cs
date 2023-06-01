@@ -7,5 +7,6 @@ public class StageInfoSO : ScriptableObject
 {
     public int enemySpeed;
     public int enemyHP;
-    public Mesh enemyMesh;
+    public float spawnFrequency;
+    public GameObject enemyPrefab;
 }
