@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = System.Random;
@@ -16,6 +17,7 @@ public class MonsterSpawner : MonoBehaviour
     //Stage data
     private StageListSO stageList;
     private int stage;
+
     private float spawnFrequency;
     //Stage data wyliczane
     private int addEnemy;
@@ -76,7 +78,7 @@ public class MonsterSpawner : MonoBehaviour
         } while (objOnMap);
         
         //No enemies
-        GameManager.Instance.CheckEndGame();
+        GameManager.Instance.UpdateGameState(GameManager.GameState.CheckAndWait);
         yield return null;
     }
     
