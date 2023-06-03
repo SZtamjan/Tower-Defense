@@ -65,7 +65,7 @@ public class TowerScript : MonoBehaviour
     {
         if(target==null)
             return;
-
+        
         Vector3 dir = target.position - transform.position;
         Quaternion whereLook = Quaternion.LookRotation(dir);
         //Vector3 actualRotation = Quaternion.Lerp(part.rotation,whereLook, Time.deltaTime*10f).eulerAngles;

@@ -8,7 +8,9 @@ public class ProjectileMover : MonoBehaviour
 {
     private Transform targetPos;
     public ProjectilesInfoSO projSO;
+    public float projSpeed = 10f;
     public int dmg;
+    
 
     private void Start()
     {
@@ -27,7 +29,13 @@ public class ProjectileMover : MonoBehaviour
     {
         if (targetPos != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos.position, 7f*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos.position, projSpeed*Time.deltaTime);
+            
+            Vector3 dir = targetPos.position - transform.position;
+            Quaternion whereLook = Quaternion.LookRotation(dir);
+            Vector3 actualRotation = whereLook.eulerAngles;
+            transform.rotation = Quaternion.Euler(0f,actualRotation.y-90f,-90f);
+            
             if (Vector3.Distance(transform.position,targetPos.position) <= 0.1f)
             {
                 Destroy(gameObject);

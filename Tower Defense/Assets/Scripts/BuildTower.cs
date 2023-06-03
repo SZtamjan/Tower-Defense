@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,6 +17,7 @@ public class BuildTower : MonoBehaviour
     public Canvas canvas;
     public GameObject upgradeMenu;
     public GameObject buyMenu;
+    public TextMeshProUGUI warningText;
 
     [Header("BuildTurret")] 
     public GameObject turret;
@@ -124,8 +126,26 @@ public class BuildTower : MonoBehaviour
     
     public void UpgradeTower()
     {
-        Destroy(placedTower);
-        PlaceTower(whereSpawnTower,newTier);
+        int fixedNewTier = newTier + 1;
+        Debug.Log("Nowy tier " + fixedNewTier);
+        Debug.Log("Max tierów " + towerList.towerTiers.Count);
+        if (fixedNewTier > towerList.towerTiers.Count)
+        {
+            StartCoroutine(DisplayText());
+        }
+        else
+        {
+            Destroy(placedTower);
+            PlaceTower(whereSpawnTower,newTier);
+        }
+    }
+
+    private IEnumerator DisplayText()
+    {
+        warningText.alpha = 1;
+        yield return new WaitForSeconds(1f);
+        warningText.alpha = 0;
+        yield return null;
     }
     public void BuyTower()
     {

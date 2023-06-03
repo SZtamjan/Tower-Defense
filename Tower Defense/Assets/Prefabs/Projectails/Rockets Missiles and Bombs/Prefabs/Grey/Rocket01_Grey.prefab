@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projSO: {fileID: 11400000, guid: 522cd9ecfb026fd459ad064368c72daa, type: 2}
+  projSpeed: 20
   dmg: 0
 --- !u!65 &3487403859338021517
 BoxCollider:
