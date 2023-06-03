@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Tier1
+  - Tier2
+  - Tier3
+  - Tier4
   layers:
   - Default
   - TransparentFX
@@ -14,7 +18,7 @@ TagManager:
   - UI
   - Enemy
   - Placable
-  - 
+  - Turret
   - 
   - 
   - 

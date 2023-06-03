@@ -13,7 +13,8 @@ public class TowerScript : MonoBehaviour
     
     [Header("Tower")]
     public float range = 5f;
-    public Transform whereSpawnProj;
+
+    public Transform[] whereSpawnProjTab;
     public Transform part;
     public bool toShoot = false;
     
@@ -21,11 +22,12 @@ public class TowerScript : MonoBehaviour
     public Transform target;
     public LayerMask lejerMask;
     
-    private float shootingSpeed;
+    private float shootingSpeed = 1;
+    private int tier;
 
     private void Start()
     {
-        shootingSpeed = turretTypeSO.shootingSpeed;
+        //shootingSpeed = turretTypeSO.shootingSpeed;
         StartCoroutine(ShootAt());
         InvokeRepeating("UpdateTarget",0f,0.5f);
     }
@@ -70,23 +72,90 @@ public class TowerScript : MonoBehaviour
         Vector3 actualRotation = whereLook.eulerAngles;
         part.rotation = Quaternion.Euler(0f,actualRotation.y-90f,0f);
     }
-    private IEnumerator ShootAt()
+
+    private void SpawnAt(int fromWhereShoot)
     {
-        while (true)
+        GameObject bulletGO = Instantiate(projectilesSO.grayProj[0], whereSpawnProjTab[fromWhereShoot].position, Quaternion.identity);
+        ProjectileMover mover = bulletGO.GetComponent<ProjectileMover>();
+
+        if (target != null)
         {
-            if (toShoot)
-            {
-                GameObject bulletGO = Instantiate(projectilesSO.grayProj[0], whereSpawnProj.position, Quaternion.identity);
-                ProjectileMover mover = bulletGO.GetComponent<ProjectileMover>();
-                
-                if(target!=null)
-                {
-                    mover.GoTo(target);
-                }
-            }
-            yield return new WaitForSeconds(shootingSpeed);
+            mover.GoTo(target);
         }
     }
+    private IEnumerator ShootAt()
+    {
+        int fromWhereShoot=0;
+        int fixedTier = tier - 1;
+        if(tier == 1)
+        {
+            while (true)
+            {
+                if (toShoot)
+                {
+                    SpawnAt(fromWhereShoot);
+                }
+                yield return new WaitForSeconds(shootingSpeed);
+            }
+        }
+        if(tier == 2)
+        {
+            while (true)
+            {
+                if (toShoot)
+                {
+                    fromWhereShoot = CheckWhereShot(fromWhereShoot,fixedTier);
+                }
+                yield return new WaitForSeconds(shootingSpeed);
+            }
+        }
+        if(tier == 3)
+        {
+            while (true)
+            {
+                if (toShoot)
+                {
+                    fromWhereShoot = CheckWhereShot(fromWhereShoot,fixedTier);
+                }
+                yield return new WaitForSeconds(shootingSpeed);
+            }
+        }
+        if(tier == 4)
+        {
+            while (true)
+            {
+                if (toShoot)
+                {
+                    SpawnAt(3);//Last Element from the table is dedicated for this spining gun
+                }
+                yield return new WaitForSeconds(shootingSpeed);
+            }
+        }
+        
+    }
+
+    private int CheckWhereShot(int fromWhereShoot,int fixedTier)
+    {
+        SpawnAt(fromWhereShoot);
+        Debug.Log("Wystrzelono z: " + fromWhereShoot );
+        if (fromWhereShoot < fixedTier)
+        {
+            fromWhereShoot++;
+            return fromWhereShoot;
+        }
+        else
+        {
+            fromWhereShoot = 0;
+            return fromWhereShoot;
+        }
+    }
+    
+    public void SaveData(TowerInfoSO towerInfo)
+    {
+        shootingSpeed = towerInfo.shootingSpeed;
+        tier = towerInfo.towerTier;
+    }
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

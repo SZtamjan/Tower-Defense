@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TurretInfoSO", menuName = "MySO/Turret")]
+[CreateAssetMenu(fileName = "TurretInfoSO", menuName = "MySO/Turrets/Turret")]
 public class TowerInfoSO : ScriptableObject
 {
     public int towerTier;
-    public Mesh Base, baseElement, pylon, PylonElement, turret, gunOne, gunTwo, gunThree;
+    public float shootingSpeed;
+    public Mesh turret, gun;
+    public Material material;
 }

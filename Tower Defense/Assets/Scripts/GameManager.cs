@@ -24,8 +24,10 @@ public class GameManager : MonoBehaviour
     
     public int delayBetweenStages = 5;
     
-    [Header("")]
+    [Header("Towers")]
     public WaypointsSO waypointSO;
+    public TowerListSO towerList;
+    private BuildTower buildScript;
 
     private int stage = 0;
     private string stageText = "Stage: ";
@@ -37,7 +39,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
         UpdateGameState(GameState.Initiate);
     }
 
@@ -72,6 +73,8 @@ public class GameManager : MonoBehaviour
     private void SendData()
     {
         monsterSpawner.InitiateData(stageList,stage,waypointSO);
+        buildScript = GetComponent<BuildTower>();
+        buildScript.InitiateTowerData(towerList);
         UpdateGameState(GameState.CheckAndWait);
     }
 
@@ -85,7 +88,6 @@ public class GameManager : MonoBehaviour
     public IEnumerator CheckIfWinAndWaitForStage()
     {
         stage = monsterSpawner.GetStageNumber();
-        Debug.Log("Stage" + stage + "ListCount" + stageList.stageInfoList.Count);
         if (stage > stageList.stageInfoList.Count)
         {
             UpdateGameState(GameState.Victory);
@@ -95,7 +97,6 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(delayBetweenStages);
             UpdateGameState(GameState.StagePlay);
-            Debug.Log("GameState StagePlay");
         }
     }
 
