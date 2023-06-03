@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96a36828041b814191ed7bd299af55a, type: 3}
   m_Name: Turret1
   m_EditorClassIdentifier: 
-  towerTier: 4
+  towerTier: 1
   shootingSpeed: 2
   turret: {fileID: 4300006, guid: b3d4f833f42463d49a70d3f33d2dfdb7, type: 3}
   gun: {fileID: 4300004, guid: b3d4f833f42463d49a70d3f33d2dfdb7, type: 3}

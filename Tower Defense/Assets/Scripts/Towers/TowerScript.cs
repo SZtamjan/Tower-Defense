@@ -29,7 +29,7 @@ public class TowerScript : MonoBehaviour
     {
         //shootingSpeed = turretTypeSO.shootingSpeed;
         StartCoroutine(ShootAt());
-        InvokeRepeating("UpdateTarget",0f,0.5f);
+        InvokeRepeating("UpdateTarget",0f,0.1f);
     }
 
     void UpdateTarget()
