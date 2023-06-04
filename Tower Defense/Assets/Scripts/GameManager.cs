@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
@@ -11,11 +11,14 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     
     //Game state
+    [Header("Main Game Stuff")] 
+    public float time = 1f;
+    private float updatedTime = 1f;
     public static event Action<GameState> OnGameStateChanged;
 
     [Header("UI Elements")] 
-    public TextMeshProUGUI stageNR;
-    
+    public GameObject canvas;
+
     //Stage Management
     [Header("Stage Management")]
     public GameState state;
@@ -23,14 +26,14 @@ public class GameManager : MonoBehaviour
     public StageListSO stageList;
     
     public int delayBetweenStages = 5;
+    private int stage = 0;
     
     [Header("Towers")]
     public WaypointsSO waypointSO;
     public TowerListSO towerList;
     private BuildTower buildScript;
 
-    private int stage = 0;
-    private string stageText = "Stage: ";
+    public UnityEvent timeUpdate;
     
     private void Awake()
     {
@@ -38,10 +41,36 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start()
-    {
+    { 
         UpdateGameState(GameState.Initiate);
     }
 
+    #region TimeEvent
+    public void TimeEventInvoke()
+    {
+        UpdateTime();
+        timeUpdate.Invoke();
+    }
+    
+    public float GetTime()
+    {
+        return time;
+    }
+
+    private void UpdateTime()
+    {
+        if (time > 3)
+        {
+            time = 1;
+        }
+        else
+        {
+            time++;
+        }
+    }
+    
+    #endregion
+    
     public void UpdateGameState(GameState newState)
     {
         state = newState;
@@ -82,7 +111,7 @@ public class GameManager : MonoBehaviour
     {
         monsterSpawner.UpdateStage();
         stage = monsterSpawner.GetStageNumber();
-        stageNR.text = stageText + stage;//UI Update
+        canvas.GetComponent<UIUpdate>().UpdateStageNoOnUI(stage.ToString());
     }
 
     public IEnumerator CheckIfWinAndWaitForStage()

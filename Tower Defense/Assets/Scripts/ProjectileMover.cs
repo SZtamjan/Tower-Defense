@@ -10,11 +10,19 @@ public class ProjectileMover : MonoBehaviour
     public ProjectilesInfoSO projSO;
     public float projSpeed = 10f;
     public int dmg;
-    
+    private float time;
+    private Vector3 antiBugger = new Vector3(0, 0, 0);
 
     private void Start()
     {
+        GameManager.Instance.timeUpdate.AddListener(UpdateTime);
+        time = GameManager.Instance.time;
         dmg = projSO.dmg;
+    }
+
+    private void UpdateTime()
+    {
+        time = GameManager.Instance.GetTime();
     }
 
     public void GoTo(Transform target)
@@ -29,16 +37,19 @@ public class ProjectileMover : MonoBehaviour
     {
         if (targetPos != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos.position, projSpeed*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos.position, time * projSpeed*Time.deltaTime);
             
             Vector3 dir = targetPos.position - transform.position;
-            Quaternion whereLook = Quaternion.LookRotation(dir);
-            Vector3 actualRotation = whereLook.eulerAngles;
-            transform.rotation = Quaternion.Euler(0f,actualRotation.y-90f,-90f);
-            
-            if (Vector3.Distance(transform.position,targetPos.position) <= 0.1f)
+            if (dir != antiBugger)
             {
-                Destroy(gameObject);
+                Quaternion whereLook = Quaternion.LookRotation(dir);
+                Vector3 actualRotation = whereLook.eulerAngles;
+                transform.rotation = Quaternion.Euler(0f,actualRotation.y-90f,-90f);
+            
+                if (Vector3.Distance(transform.position,targetPos.position) <= 0.1f)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
         else

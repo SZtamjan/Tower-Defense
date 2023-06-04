@@ -13,11 +13,19 @@ public class TowerShooting : MonoBehaviour
     
     public bool toShoot = false;
     private float shootingSpeed;
+    private float time = 1;
 
     private void Start()
     {
+        GameManager.Instance.timeUpdate.AddListener(UpdateTime);
+        time = GameManager.Instance.time;
         shootingSpeed = turretTypeSO.shootingSpeed;
         StartCoroutine(ShootAt());
+    }
+    
+    private void UpdateTime()
+    {
+        time = GameManager.Instance.GetTime();
     }
 
     private IEnumerator ShootAt()
@@ -35,7 +43,7 @@ public class TowerShooting : MonoBehaviour
                 target = GetComponent<TowerScript>().target;
                 mover.GoTo(target);
             }
-            yield return new WaitForSeconds(shootingSpeed);
+            yield return new WaitForSeconds(shootingSpeed / time);
         }
     }
 }

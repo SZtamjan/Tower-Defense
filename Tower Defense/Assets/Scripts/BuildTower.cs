@@ -17,7 +17,6 @@ public class BuildTower : MonoBehaviour
     public Canvas canvas;
     public GameObject upgradeMenu;
     public GameObject buyMenu;
-    public TextMeshProUGUI warningText;
 
     [Header("BuildTurret")] 
     public GameObject turret;
@@ -37,9 +36,13 @@ public class BuildTower : MonoBehaviour
     
     public UnityEvent OnClicked;
     public UnityEvent RMBClicked;
+    
+    //UI
+    private UIUpdate uiUpdate;
 
     private void Start()
     {
+        uiUpdate = GameManager.Instance.canvas.GetComponent<UIUpdate>();
         OnClicked.AddListener(Clicked);
         RMBClicked.AddListener(CloseBothMenu);
     }
@@ -142,9 +145,9 @@ public class BuildTower : MonoBehaviour
 
     private IEnumerator DisplayText()
     {
-        warningText.alpha = 1;
+        uiUpdate.warningText.alpha = 1;
         yield return new WaitForSeconds(1f);
-        warningText.alpha = 0;
+        uiUpdate.warningText.alpha = 0;
         yield return null;
     }
     public void BuyTower()

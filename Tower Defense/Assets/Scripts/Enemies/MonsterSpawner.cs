@@ -17,14 +17,14 @@ public class MonsterSpawner : MonoBehaviour
     //Stage data
     private StageListSO stageList;
     private int stage;
+    private float time;
 
     private float spawnFrequency;
+    private float currentFrec;
     //Stage data wyliczane
     private int addEnemy;
     private int totalEnemies=0;
-    
 
-    
     public void InitiateData(StageListSO stageList,int stage,WaypointsSO waypointsSO)
     {
         this.stageList = stageList;
@@ -33,14 +33,22 @@ public class MonsterSpawner : MonoBehaviour
 
         addEnemy = stageList.AddEnemy;
         spawnFrequency = stageList.stageInfoList[0].spawnFrequency;
+        currentFrec = stageList.stageInfoList[0].spawnFrequency;
     }
     
     public void StartStage()
     {
+        GameManager.Instance.timeUpdate.AddListener(UpdateTime);
+        time = GameManager.Instance.time;
+        currentFrec = spawnFrequency / time;
         UpdateEnemyStats();
         StartCoroutine(SpawnEnemiesCor());
     }
-    
+    private void UpdateTime()
+    {
+        time = GameManager.Instance.GetTime();
+        currentFrec = spawnFrequency / time;
+    }
     public IEnumerator SpawnEnemiesCor()
     {
         totalEnemies += addEnemy;
@@ -49,7 +57,7 @@ public class MonsterSpawner : MonoBehaviour
         { 
             GameObject enemyMover = Instantiate(enemyPrefab, transform.position, Quaternion.identity); 
             enemyMover.GetComponent<EnemyMover>().UpdateEnemyDataAndStart(enemyHP,enemySpeed,waypointsSO); 
-            yield return new WaitForSeconds(spawnFrequency);
+            yield return new WaitForSeconds(currentFrec); // Zamiast tego, zrobić sprawdzanie czy w range/zasięgu nie ma wroga i zrespić po prostu jak tylko wyjdzie z zasięgu
         }
 
         StartCoroutine(FindEnemiesOnMap());
@@ -63,6 +71,7 @@ public class MonsterSpawner : MonoBehaviour
         enemySpeed = enemyInfo[index].enemySpeed;
         enemyPrefab = enemyInfo[index].enemyPrefab;
         spawnFrequency = enemyInfo[index].spawnFrequency;
+        UpdateTime();
     }
 
     private IEnumerator FindEnemiesOnMap()
