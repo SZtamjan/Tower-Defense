@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     //Game state
     [Header("Main Game Stuff")] 
     public float time = 1f;
-    private float updatedTime = 1f;
     public static event Action<GameState> OnGameStateChanged;
 
     [Header("UI Elements")] 

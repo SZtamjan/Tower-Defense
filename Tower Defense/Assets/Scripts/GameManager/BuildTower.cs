@@ -14,7 +14,7 @@ public class BuildTower : MonoBehaviour
     public Camera mainCam;
 
     [Header("UI Elements")] 
-    public Canvas canvas;
+    private Canvas canvas;
     public GameObject upgradeMenu;
     public GameObject buyMenu;
 
@@ -42,9 +42,10 @@ public class BuildTower : MonoBehaviour
 
     private void Start()
     {
+        canvas = GameManager.Instance.canvas.GetComponent<Canvas>();
         uiUpdate = GameManager.Instance.canvas.GetComponent<UIUpdate>();
         OnClicked.AddListener(Clicked);
-        RMBClicked.AddListener(CloseBothMenu);
+        RMBClicked.AddListener(uiUpdate.CloseBothMenus);
     }
     
     private void Update()
@@ -86,13 +87,13 @@ public class BuildTower : MonoBehaviour
             if (turrets.Length > 0)
             {
                 Debug.Log("coś tu sie znajduje");
-                OpenUpgradeMenu(pos);
+                uiUpdate.OpenUpgradeMenu(pos);
                 UpgradeBuyDataInitialize(fixedPos,turrets[0].gameObject);
             }
             else
             {
                 UpgradeBuyDataInitialize(fixedPos);
-                OpenBuyMenu(pos);
+                uiUpdate.OpenBuyMenu(pos);
             }
         }
     }
@@ -125,7 +126,21 @@ public class BuildTower : MonoBehaviour
     }
 
 
-    #region Menu Management
+    #region Buy/Upgrade Management
+    
+    private void UpgradeBuyDataInitialize(Vector3 fixedPos)
+    {
+        whereSpawnTower = fixedPos;
+        newTier = whatTierIClicked;
+    }
+    
+    private void UpgradeBuyDataInitialize(Vector3 fixedPos,GameObject currentTower)
+    {
+        whereSpawnTower = fixedPos;
+        placedTower = currentTower.gameObject;
+        whatTierIClicked = CheckWhichTier(currentTower);
+        newTier = whatTierIClicked;
+    }
     
     public void UpgradeTower()
     {
@@ -134,7 +149,7 @@ public class BuildTower : MonoBehaviour
         Debug.Log("Max tierów " + towerList.towerTiers.Count);
         if (fixedNewTier > towerList.towerTiers.Count)
         {
-            StartCoroutine(DisplayText());
+            StartCoroutine(uiUpdate.DisplayText());
         }
         else
         {
@@ -142,62 +157,12 @@ public class BuildTower : MonoBehaviour
             PlaceTower(whereSpawnTower,newTier);
         }
     }
-
-    private IEnumerator DisplayText()
-    {
-        uiUpdate.warningText.alpha = 1;
-        yield return new WaitForSeconds(1f);
-        uiUpdate.warningText.alpha = 0;
-        yield return null;
-    }
+    
     public void BuyTower()
     {
         PlaceTower(whereSpawnTower,0);
-        CloseBuyMenu();
+        uiUpdate.CloseBuyMenu();
     }
-    
-    private void UpgradeBuyDataInitialize(Vector3 fixedPos)
-    {
-        whereSpawnTower = fixedPos;
-        newTier = whatTierIClicked;
-    }
-
-    private void UpgradeBuyDataInitialize(Vector3 fixedPos,GameObject currentTower)
-    {
-        whereSpawnTower = fixedPos;
-        placedTower = currentTower.gameObject;
-        whatTierIClicked = CheckWhichTier(currentTower);
-        newTier = whatTierIClicked;
-    }
-    private void OpenUpgradeMenu(Vector2 cursorPos)
-    {
-        CloseBuyMenu();
-        upgradeMenu.transform.position = canvas.transform.TransformPoint(cursorPos);
-        upgradeMenu.SetActive(true);
-    }
-    private void CloseUpgradeMenu()
-    {
-        upgradeMenu.SetActive(false);
-    }
-
-    private void OpenBuyMenu(Vector2 cursorPos)
-    {
-        CloseUpgradeMenu();
-        buyMenu.transform.position = canvas.transform.TransformPoint(cursorPos);
-        buyMenu.SetActive(true);
-    }
-
-    private void CloseBuyMenu()
-    {
-        buyMenu.SetActive(false);
-    }
-
-    private void CloseBothMenu()
-    {
-        CloseBuyMenu();
-        CloseUpgradeMenu();
-    }
-    
     #endregion
     
     private void PlaceTower(Vector3 towerPos, int tierNo)
