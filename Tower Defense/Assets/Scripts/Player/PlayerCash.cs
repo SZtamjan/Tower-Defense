@@ -17,7 +17,20 @@ public class PlayerCash : MonoBehaviour
 
     public void UpdateCash(int value)
     {
+        Debug.Log("Kupiłem coś za: " + value);
         cash += value;
         uiUpdate.UpdateCashText(cash.ToString());
+    }
+
+    public bool CheckIfCanBuy(int cost)
+    {
+        if (cost <= cash)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

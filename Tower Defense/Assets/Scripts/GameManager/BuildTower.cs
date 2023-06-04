@@ -30,18 +30,21 @@ public class BuildTower : MonoBehaviour
     private int whatTierIClicked = 0;
     
     //Initialize Data
-    private int newTier = 0;
+    private int selectedTier = 0;
     private GameObject placedTower;
     private Vector3 whereSpawnTower;
+    private int cost;
     
     public UnityEvent OnClicked;
     public UnityEvent RMBClicked;
     
     //UI
     private UIUpdate uiUpdate;
-
+    private PlayerCash playerCash;
+    
     private void Start()
     {
+        playerCash = GetComponent<PlayerCash>();
         canvas = GameManager.Instance.canvas.GetComponent<Canvas>();
         uiUpdate = GameManager.Instance.canvas.GetComponent<UIUpdate>();
         OnClicked.AddListener(Clicked);
@@ -87,8 +90,8 @@ public class BuildTower : MonoBehaviour
             if (turrets.Length > 0)
             {
                 Debug.Log("coś tu sie znajduje");
-                uiUpdate.OpenUpgradeMenu(pos);
                 UpgradeBuyDataInitialize(fixedPos,turrets[0].gameObject);
+                uiUpdate.OpenUpgradeMenu(pos);
             }
             else
             {
@@ -130,8 +133,9 @@ public class BuildTower : MonoBehaviour
     
     private void UpgradeBuyDataInitialize(Vector3 fixedPos)
     {
+        UpdateCost(towerList.towerTiers[0].cost);
         whereSpawnTower = fixedPos;
-        newTier = whatTierIClicked;
+        selectedTier = whatTierIClicked;
     }
     
     private void UpgradeBuyDataInitialize(Vector3 fixedPos,GameObject currentTower)
@@ -139,29 +143,58 @@ public class BuildTower : MonoBehaviour
         whereSpawnTower = fixedPos;
         placedTower = currentTower.gameObject;
         whatTierIClicked = CheckWhichTier(currentTower);
-        newTier = whatTierIClicked;
+        if (whatTierIClicked == towerList.towerTiers.Count)
+        {
+            uiUpdate.UpdateUpgradeCostDisplayMAX();
+        }
+        else if (whatTierIClicked < towerList.towerTiers.Count)
+        {
+            UpdateCost(towerList.towerTiers[whatTierIClicked].cost);
+        }
+        selectedTier = whatTierIClicked;
+    }
+
+    private void UpdateCost(int towerCost)
+    {
+        cost = towerCost;
+        uiUpdate.UpdateGainDisplay(cost.ToString());
+        uiUpdate.UpdateUpgradeCostDisplay(cost.ToString());
     }
     
     public void UpgradeTower()
     {
-        int fixedNewTier = newTier + 1;
-        Debug.Log("Nowy tier " + fixedNewTier);
-        Debug.Log("Max tierów " + towerList.towerTiers.Count);
+        int fixedNewTier = selectedTier + 1;
+        Debug.Log("Selected Tier: " + selectedTier);
+        Debug.Log("fixedNewTier: " + fixedNewTier);
         if (fixedNewTier > towerList.towerTiers.Count)
         {
             StartCoroutine(uiUpdate.DisplayText());
         }
         else
         {
-            Destroy(placedTower);
-            PlaceTower(whereSpawnTower,newTier);
+            int cost = towerList.towerTiers[selectedTier].cost;
+            bool canIBuy = playerCash.CheckIfCanBuy(cost);
+
+            if (canIBuy)
+            {
+                playerCash.UpdateCash(-cost);
+                Destroy(placedTower);
+                PlaceTower(whereSpawnTower, selectedTier);
+            }
         }
     }
     
     public void BuyTower()
     {
-        PlaceTower(whereSpawnTower,0);
-        uiUpdate.CloseBuyMenu();
+        int cost = towerList.towerTiers[0].cost;
+        bool canIBuy = playerCash.CheckIfCanBuy(cost);
+
+        if (canIBuy)
+        {
+            playerCash.UpdateCash(-cost);
+            PlaceTower(whereSpawnTower, 0);
+            uiUpdate.CloseBuyMenu();
+        }
     }
     #endregion
     

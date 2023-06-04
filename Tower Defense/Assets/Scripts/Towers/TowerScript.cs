@@ -145,7 +145,6 @@ public class TowerScript : MonoBehaviour
     private int CheckWhereShot(int fromWhereShoot,int fixedTier)
     {
         SpawnAt(fromWhereShoot);
-        Debug.Log("Wystrzelono z: " + fromWhereShoot );
         if (fromWhereShoot < fixedTier)
         {
             fromWhereShoot++;

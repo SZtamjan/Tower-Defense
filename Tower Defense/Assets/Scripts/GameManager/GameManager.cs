@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     [Header("UI Elements")] 
     public GameObject canvas;
+    private UIUpdate uiUpdate;
+    public PlayerCash playerCash;
 
     //Stage Management
     [Header("Stage Management")]
@@ -40,7 +42,9 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start()
-    { 
+    {
+        playerCash = GetComponent<PlayerCash>();
+        uiUpdate = canvas.GetComponent<UIUpdate>();
         UpdateGameState(GameState.Initiate);
     }
 
@@ -61,10 +65,12 @@ public class GameManager : MonoBehaviour
         if (time > 3)
         {
             time = 1;
+            uiUpdate.UpdateTimeText(time.ToString());
         }
         else
         {
             time++;
+            uiUpdate.UpdateTimeText(time.ToString());
         }
     }
     

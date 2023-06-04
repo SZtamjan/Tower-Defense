@@ -6,6 +6,7 @@ using UnityEngine;
 public class TowerInfoSO : ScriptableObject
 {
     public int towerTier;
+    public int cost;
     public float shootingSpeed;
     public Mesh turret, gun;
     public Material material;

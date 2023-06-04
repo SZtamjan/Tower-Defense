@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Turret3
   m_EditorClassIdentifier: 
   towerTier: 3
+  cost: 25
   shootingSpeed: 1
   turret: {fileID: 4300006, guid: 6615f779811db9248a846195a5f07990, type: 3}
   gun: {fileID: 4300004, guid: b3d4f833f42463d49a70d3f33d2dfdb7, type: 3}

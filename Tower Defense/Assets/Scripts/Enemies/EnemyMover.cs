@@ -50,6 +50,7 @@ public class EnemyMover : MonoBehaviour
             hp -= object1Script.dmg;
             if (hp <= 0f)
             {
+                GameManager.Instance.playerCash.UpdateCash(10);
                 Destroy(gameObject);
             }
         }

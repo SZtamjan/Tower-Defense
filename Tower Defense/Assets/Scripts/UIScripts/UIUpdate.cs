@@ -11,8 +11,18 @@ public class UIUpdate : MonoBehaviour
     public TextMeshProUGUI warningText;
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI cashText;
+    public TextMeshProUGUI timeText;
+    
+    [Header("Menus")]
+    
+    [Header("Buy Menu")]
     public GameObject buyMenu;
+    public TextMeshProUGUI costBuyText;
+    
+    [Header("Upgrade Menu")]
     public GameObject upgradeMenu;
+    public TextMeshProUGUI costOfUpgradeText;
+    public TextMeshProUGUI gainText;
 
     private void Start()
     {
@@ -20,6 +30,20 @@ public class UIUpdate : MonoBehaviour
     }
     
     #region Text Update
+
+    public void UpdateUpgradeCostDisplay(string costOfUpgradeText)
+    {
+        this.costOfUpgradeText.text = "costs: " + costOfUpgradeText;
+    }
+
+    public void UpdateUpgradeCostDisplayMAX()
+    {
+        costOfUpgradeText.text = "MAXED";
+    }
+    public void UpdateGainDisplay(string costBuyText)
+    {
+        this.costBuyText.text = "costs: " + costBuyText;
+    }
     public void UpdateStageNoOnUI(string stageNo)
     {
         this.stageNo.text = "Stage: " + stageNo;
@@ -32,6 +56,21 @@ public class UIUpdate : MonoBehaviour
     public void UpdateWarningonUI(string warningText)
     {
         this.warningText.text = warningText;
+    }
+
+    public void UpdateTimeText(string time)
+    {
+        if (time == "1")
+        {
+            timeText.alpha = 0f;
+        }
+        else
+        {
+            timeText.text = "X"+time;
+            timeText.alpha = 1f;
+        }
+        
+        
     }
     
     #endregion
