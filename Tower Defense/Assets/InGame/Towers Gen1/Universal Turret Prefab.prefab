@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a73104e60d072e49be2927ddb1101a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turretTypeSO: {fileID: 0}
+  cube: {fileID: 4783588818313883501, guid: 8c36b0b9b4627c24ea7c1dcd71032104, type: 3}
   projectilesSO: {fileID: 11400000, guid: a7dfc1ab0bf238e4488672c55e0a5305, type: 2}
   range: 5
   whereSpawnProjTab:

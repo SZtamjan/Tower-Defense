@@ -8,9 +8,11 @@ public class EnemyMover : MonoBehaviour
 {
     private WaypointsSO waypointSO;
 
+    public int enemyID = 0;
+    
     private float time = 1;
     private int moveSpeed = 1;
-    private int hp = 5; //Jeszcze nie zrobione przypisywanie hp z listy (hp jest w liście StageList i jest zależne od Stage), to trzeba zrobić dopiero po mechanice stage'y
+    private int hp = 5;
 
     public void UpdateEnemyDataAndStart(int enemyHP,int speed,WaypointsSO wP)
     {

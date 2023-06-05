@@ -12,6 +12,8 @@ public class TowerScript : MonoBehaviour
     
     [Header("Tower")]
     public float range = 5f;
+    private Quaternion towerOffset = Quaternion.Euler(0, -90, 0);
+    private Vector3 towerHeightOffset = new Vector3(0, 0.929321f, 0);
 
     public Transform[] whereSpawnProjTab;
     public Transform part;
@@ -74,11 +76,10 @@ public class TowerScript : MonoBehaviour
         if(target==null)
             return;
         
-        Vector3 dir = target.position - transform.position;
+        Vector3 dir = target.position - (transform.position + towerHeightOffset);
         Quaternion whereLook = Quaternion.LookRotation(dir);
-        //Vector3 actualRotation = Quaternion.Lerp(part.rotation,whereLook, Time.deltaTime*10f).eulerAngles;
-        Vector3 actualRotation = whereLook.eulerAngles;
-        part.rotation = Quaternion.Euler(0f,actualRotation.y-90f,0f);
+        whereLook *= towerOffset;
+        part.rotation = Quaternion.Slerp(part.rotation, whereLook, Time.deltaTime*20f);
     }
 
     private void SpawnAt(int fromWhereShoot)
