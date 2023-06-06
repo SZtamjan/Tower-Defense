@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     
     //Game state
-    [Header("Main Game Stuff")] 
-    public float time = 1f;
+    [Header("Main Game Stuff")]
+    private int timeSpeedUp = 1;
     public static event Action<GameState> OnGameStateChanged;
 
     [Header("UI Elements")] 
@@ -34,8 +34,6 @@ public class GameManager : MonoBehaviour
     public TowerListSO towerList;
     private BuildTower buildScript;
 
-    public UnityEvent timeUpdate;
-    
     private void Awake()
     {
         Instance = this;
@@ -49,29 +47,23 @@ public class GameManager : MonoBehaviour
     }
 
     #region TimeEvent
-    public void TimeEventInvoke()
-    {
-        UpdateTime();
-        timeUpdate.Invoke();
-    }
-    
-    public float GetTime()
-    {
-        return time;
-    }
 
-    private void UpdateTime()
+    public void UpdateTime()
     {
-        if (time > 3)
+        float timeScale = Time.timeScale;
+        timeScale++;
+        
+        if (timeScale > 4.1f) // That 0.1f is just an offset, cuz float is not really accurate
         {
-            time = 1;
-            uiUpdate.UpdateTimeText(time.ToString());
+            Time.timeScale = 1f;
+            timeSpeedUp = 1;
         }
         else
         {
-            time++;
-            uiUpdate.UpdateTimeText(time.ToString());
+            Time.timeScale = timeScale;
+            timeSpeedUp++;
         }
+        uiUpdate.UpdateTimeText(timeSpeedUp.ToString());
     }
     
     #endregion

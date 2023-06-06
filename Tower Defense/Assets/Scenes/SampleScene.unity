@@ -2932,7 +2932,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1139779218}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: TimeEventInvoke
+        m_MethodName: UpdateTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4158,7 +4158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32217059befe134389eb621d4e205b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 1
   canvas: {fileID: 44849499}
   playerCash: {fileID: 0}
   state: 0

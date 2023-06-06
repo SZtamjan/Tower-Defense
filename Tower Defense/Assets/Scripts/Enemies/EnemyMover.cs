@@ -10,24 +10,17 @@ public class EnemyMover : MonoBehaviour
 
     public int enemyID = 0;
     
-    private float time = 1;
     private int moveSpeed = 1;
     private int hp = 5;
 
     public void UpdateEnemyDataAndStart(int enemyHP,int speed,WaypointsSO wP)
     {
-        time = GameManager.Instance.time;
-        GameManager.Instance.timeUpdate.AddListener(UpdateTime);
         hp = enemyHP;
         waypointSO = wP;
         moveSpeed = speed;
         StartCoroutine(MoveToTarget());
     }
-    private void UpdateTime()
-    {
-        time = GameManager.Instance.GetTime();
-    }
-    
+
     private IEnumerator MoveToTarget()
     {
         foreach (Transform currWaypoint in waypointSO.waypointsList)
@@ -35,7 +28,8 @@ public class EnemyMover : MonoBehaviour
             while (Vector3.Distance(transform.position, currWaypoint.position) != 0)
             {
                 transform.position =
-                    Vector3.MoveTowards(transform.position, currWaypoint.position, time * moveSpeed * Time.deltaTime);
+                    Vector3.MoveTowards(transform.position, currWaypoint.position, moveSpeed * Time.deltaTime);
+
                 yield return null;
             }
         }

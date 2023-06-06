@@ -10,21 +10,13 @@ public class ProjectileMover : MonoBehaviour
     public ProjectilesInfoSO projSO;
     public float projSpeed = 10f;
     public int dmg;
-    private float time;
     private Vector3 antiBugger = new Vector3(0, 0, 0);
 
     private void Start()
     {
-        GameManager.Instance.timeUpdate.AddListener(UpdateTime);
-        time = GameManager.Instance.time;
         dmg = projSO.dmg;
     }
-
-    private void UpdateTime()
-    {
-        time = GameManager.Instance.GetTime();
-    }
-
+    
     public void GoTo(Transform target)
     {
         if(target.position != null)
@@ -37,7 +29,7 @@ public class ProjectileMover : MonoBehaviour
     {
         if (targetPos != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos.position, time * projSpeed*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos.position, projSpeed*Time.deltaTime);
             
             Vector3 dir = targetPos.position - transform.position;
             if (dir != antiBugger)

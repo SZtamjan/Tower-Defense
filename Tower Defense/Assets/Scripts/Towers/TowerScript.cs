@@ -25,23 +25,14 @@ public class TowerScript : MonoBehaviour
     
     private float shootingSpeed = 1;
     private int tier;
-    //Time
-    private float time = 1;
-    
+
     private void Start()
     {
-        GameManager.Instance.timeUpdate.AddListener(UpdateTime);
-        time = GameManager.Instance.time;
         //shootingSpeed = turretTypeSO.shootingSpeed;
         StartCoroutine(ShootAt());
         InvokeRepeating("UpdateTarget",0f,0.1f);
     }
 
-    private void UpdateTime()
-    {
-        time = GameManager.Instance.GetTime();
-    }
-    
     void UpdateTarget()
     {
         Vector3 dwa = transform.position; 
@@ -137,7 +128,7 @@ public class TowerScript : MonoBehaviour
                 {
                     SpawnAt(3);//Last Element from the table is dedicated for this spining gun
                 }
-                yield return new WaitForSeconds(shootingSpeed / time);
+                yield return new WaitForSeconds(shootingSpeed);
             }
         }
         
