@@ -135,6 +135,7 @@ public class BuildTower : MonoBehaviour
         whereSpawnTower = fixedPos;
         placedTower = currentTower.gameObject;
         whatTierIClicked = CheckWhichTier(currentTower);
+        Debug.Log("Selected Tierrrrrrrrrr: " + selectedTier);
         if (whatTierIClicked == towerList.towerTiers.Count)
         {
             uiUpdate.UpdateUpgradeCostDisplayMAX();
@@ -144,6 +145,7 @@ public class BuildTower : MonoBehaviour
             UpdateCost(towerList.towerTiers[whatTierIClicked].cost);
         }
         selectedTier = whatTierIClicked;
+        Debug.Log("Selected Tier2222222: " + selectedTier);
     }
 
     private void UpdateCost(int towerCost)
@@ -186,6 +188,21 @@ public class BuildTower : MonoBehaviour
             playerCash.UpdateCash(-cost);
             PlaceTower(whereSpawnTower, 0);
             uiUpdate.CloseBuyMenu();
+            //Open Upgrade Menu
+        }
+    }
+
+    public void BuyTowerNew()
+    {
+        int cost = towerList.towerTiers[0].cost;
+        bool canIBuy = playerCash.CheckIfCanBuy(cost);
+
+        if (canIBuy)
+        {
+            playerCash.UpdateCash(-cost);
+            PlaceTower(whereSpawnTower, 0);
+            TowerUI.Instance.buy.SetActive(false);
+            TowerUI.Instance.upgrade.SetActive(true);
         }
     }
     #endregion
