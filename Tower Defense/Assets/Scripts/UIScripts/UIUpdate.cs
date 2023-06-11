@@ -13,37 +13,13 @@ public class UIUpdate : MonoBehaviour
     public TextMeshProUGUI cashText;
     public TextMeshProUGUI timeText;
     
-    [Header("Menus")]
-    
-    [Header("Buy Menu")]
-    public GameObject buyMenu;
-    public TextMeshProUGUI costBuyText;
-    
-    [Header("Upgrade Menu")]
-    public GameObject upgradeMenu;
-    public TextMeshProUGUI costOfUpgradeText;
-    public TextMeshProUGUI gainText;
-
     private void Start()
     {
         canvas = GetComponent<Canvas>();
     }
     
     #region Text Update
-
-    public void UpdateUpgradeCostDisplay(string costOfUpgradeText)
-    {
-        this.costOfUpgradeText.text = "costs: " + costOfUpgradeText;
-    }
-
-    public void UpdateUpgradeCostDisplayMAX()
-    {
-        costOfUpgradeText.text = "MAXED";
-    }
-    public void UpdateGainDisplay(string costBuyText)
-    {
-        this.costBuyText.text = "costs: " + costBuyText;
-    }
+    
     public void UpdateStageNoOnUI(string stageNo)
     {
         this.stageNo.text = "Stage: " + stageNo;
@@ -53,7 +29,7 @@ public class UIUpdate : MonoBehaviour
     {
         cashText.text = "Cash: " + amount;
     }
-    public void UpdateWarningonUI(string warningText)
+    public void UpdateWarningonUI(string warningText) //Maybe will be used to display different warning texts
     {
         this.warningText.text = warningText;
     }
@@ -73,8 +49,6 @@ public class UIUpdate : MonoBehaviour
         
     }
     
-    #endregion
-
     public IEnumerator DisplayText()
     {
         warningText.alpha = 1;
@@ -82,44 +56,15 @@ public class UIUpdate : MonoBehaviour
         warningText.alpha = 0;
         yield return null;
     }
+    
+    #endregion
 
     #region Buy/Upgrade Menus
     
     public void UpdateHPonUI(string hpText)
     {
-        
         this.hpText.text = "Your HP: " + hpText;
     }
-
-    public void OpenBuyMenu(Vector2 cursorPos)
-    {
-        CloseUpgradeMenu();
-        buyMenu.transform.position = canvas.transform.TransformPoint(cursorPos);
-        buyMenu.SetActive(true);
-    }
-    public void CloseBuyMenu()
-    {
-        buyMenu.SetActive(false);
-    }
-
-    public void OpenUpgradeMenu(Vector2 cursorPos)
-    {
-        CloseBuyMenu();
-        upgradeMenu.transform.position = canvas.transform.TransformPoint(cursorPos);
-        upgradeMenu.SetActive(true);
-    }
-    
-    public void CloseUpgradeMenu()
-    {
-        upgradeMenu.SetActive(false);
-    }
-
-    public void CloseBothMenus()
-    {
-        CloseUpgradeMenu();
-        CloseBuyMenu();
-    }
-    
     #endregion
     
 }

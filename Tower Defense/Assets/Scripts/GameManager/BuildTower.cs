@@ -33,14 +33,17 @@ public class BuildTower : MonoBehaviour
     //UI
     private UIUpdate uiUpdate;
     private PlayerCash playerCash;
+    //Tower UI
+    private TowerUI uiTower;
     
     private void Start()
     {
         playerCash = GetComponent<PlayerCash>();
         canvas = GameManager.Instance.canvas.GetComponent<Canvas>();
+        uiTower = TowerUI.Instance.GetComponent<TowerUI>();
         uiUpdate = GameManager.Instance.canvas.GetComponent<UIUpdate>();
         OnClicked.AddListener(Clicked);
-        RMBClicked.AddListener(uiUpdate.CloseBothMenus);
+        RMBClicked.AddListener(uiTower.CloseEntireUI);
     }
     
     private void Update()
@@ -61,34 +64,27 @@ public class BuildTower : MonoBehaviour
         Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 200,placeableLayer))
+        if (Physics.Raycast(ray, out hit, 200))
         {
-            Vector2 clickPosition = Input.mousePosition;
-            
-            //Vector3 worldPosition = Camera.main.ScreenToWorldPoint(clickPosition);
-            Vector2 pos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform, clickPosition,
-                canvas.worldCamera, out pos);
-            
-            
-            Transform clickedObject = hit.collider.gameObject.transform;
-            Vector3 fixedPos = new Vector3(clickedObject.position.x, clickedObject.position.y + 0.29f,
-                clickedObject.position.z);
-            //Sprawdź jaki tower się znajduje (od najlepszego sprawdzaj w dół) i postaw lepszy jak można
-
-
-            Collider[] turrets = Physics.OverlapSphere(fixedPos, 0.2f, turretLayer);
-
-            if (turrets.Length > 0)
+            if (((1<< hit.collider.gameObject.layer) & placeableLayer) != 0)
             {
-                Debug.Log("coś tu sie znajduje");
-                UpgradeBuyDataInitialize(fixedPos,turrets[0].gameObject);
-                uiUpdate.OpenUpgradeMenu(pos);
-            }
-            else
-            {
-                UpgradeBuyDataInitialize(fixedPos);
-                uiUpdate.OpenBuyMenu(pos);
+                Transform clickedObject = hit.collider.gameObject.transform;
+                Vector3 fixedPos = new Vector3(clickedObject.position.x, clickedObject.position.y + 0.29f,
+                    clickedObject.position.z);
+
+                Collider[] turrets = Physics.OverlapSphere(fixedPos, 0.2f, turretLayer);
+
+                if (turrets.Length > 0)
+                {
+                    Debug.Log("coś tu sie znajduje");
+                    UpgradeDataInitialize(fixedPos,turrets[0].gameObject);
+                    uiTower.OpenUpgrade(hit.transform.position);
+                }
+                else
+                {
+                    BuyDataInitialize(fixedPos);
+                    uiTower.OpenBuy(hit.transform.position);
+                }
             }
         }
     }
@@ -123,43 +119,40 @@ public class BuildTower : MonoBehaviour
 
     #region Buy/Upgrade Management
     
-    private void UpgradeBuyDataInitialize(Vector3 fixedPos)
+    private void BuyDataInitialize(Vector3 fixedPos)
     {
         UpdateCost(towerList.towerTiers[0].cost);
         whereSpawnTower = fixedPos;
         selectedTier = whatTierIClicked;
     }
     
-    private void UpgradeBuyDataInitialize(Vector3 fixedPos,GameObject currentTower)
+    private void UpgradeDataInitialize(Vector3 fixedPos,GameObject currentTower)
     {
         whereSpawnTower = fixedPos;
         placedTower = currentTower.gameObject;
         whatTierIClicked = CheckWhichTier(currentTower);
-        Debug.Log("Selected Tierrrrrrrrrr: " + selectedTier);
+        Debug.Log("Checked Tier to upgrade from: " + whatTierIClicked);
         if (whatTierIClicked == towerList.towerTiers.Count)
         {
-            uiUpdate.UpdateUpgradeCostDisplayMAX();
+            uiTower.UpdateUpgradeCostDisplayMAX();
         }
         else if (whatTierIClicked < towerList.towerTiers.Count)
         {
             UpdateCost(towerList.towerTiers[whatTierIClicked].cost);
         }
         selectedTier = whatTierIClicked;
-        Debug.Log("Selected Tier2222222: " + selectedTier);
     }
 
     private void UpdateCost(int towerCost)
     {
         cost = towerCost;
-        uiUpdate.UpdateGainDisplay(cost.ToString());
-        uiUpdate.UpdateUpgradeCostDisplay(cost.ToString());
+        uiTower.UpdateGainDisplay(cost.ToString());
+        uiTower.UpdateUpgradeCostDisplay(cost.ToString());
     }
     
     public void UpgradeTower()
     {
         int fixedNewTier = selectedTier + 1;
-        Debug.Log("Selected Tier: " + selectedTier);
-        Debug.Log("fixedNewTier: " + fixedNewTier);
         if (fixedNewTier > towerList.towerTiers.Count)
         {
             StartCoroutine(uiUpdate.DisplayText());
@@ -177,20 +170,6 @@ public class BuildTower : MonoBehaviour
             }
         }
     }
-    
-    public void BuyTower()
-    {
-        int cost = towerList.towerTiers[0].cost;
-        bool canIBuy = playerCash.CheckIfCanBuy(cost);
-
-        if (canIBuy)
-        {
-            playerCash.UpdateCash(-cost);
-            PlaceTower(whereSpawnTower, 0);
-            uiUpdate.CloseBuyMenu();
-            //Open Upgrade Menu
-        }
-    }
 
     public void BuyTowerNew()
     {
@@ -201,8 +180,7 @@ public class BuildTower : MonoBehaviour
         {
             playerCash.UpdateCash(-cost);
             PlaceTower(whereSpawnTower, 0);
-            TowerUI.Instance.buy.SetActive(false);
-            TowerUI.Instance.upgrade.SetActive(true);
+            uiTower.CloseBuyOpenUpgrade();
         }
     }
     #endregion
@@ -214,7 +192,7 @@ public class BuildTower : MonoBehaviour
         WhatWhere turretComp = physicalTurret.GetComponent<WhatWhere>();
         TowerInfoSO towerInfo = towerList.towerTiers[tierNo];
         physicalTurret.tag = towerTierTag[tierNo];
-        UpgradeBuyDataInitialize(physicalTurret.transform.position,physicalTurret);
+        UpgradeDataInitialize(physicalTurret.transform.position,physicalTurret);
         
         //Mesh - Static
         turretComp.baseF.mesh = towerList.Base;
