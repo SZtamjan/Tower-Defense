@@ -83,6 +83,7 @@ public class TowerUI : MonoBehaviour
     
     public void OpenUpgrade(Vector3 pos)
     {
+        CloseEntireUI();
         parent.position = pos;
         upgrade.SetActive(true);
         OpenSell();
