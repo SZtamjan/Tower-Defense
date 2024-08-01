@@ -22,7 +22,7 @@ public class TowerUI : MonoBehaviour
 
     [Header("Rotation Towards")]
     public Transform me;
-    private Quaternion rotOffset = Quaternion.Euler(270, 0, 180);
+    private Quaternion rotOffset = Quaternion.Euler(0, 0, 0);
 
     private void Awake()
     {
